@@ -19,15 +19,14 @@ const slice = createSlice({
         setAppStatusAC(state,action: PayloadAction<{status: RequestStatusType}>){
             state.status=action.payload.status
         },
-        setAppInitializedAC(state,action: PayloadAction<{value: boolean}>){
-            state.isInitialized=action.payload.value
+        setAppInitializedAC(state,action: PayloadAction<{isInitialized: boolean}>){
+            state.isInitialized=action.payload.isInitialized
         }
     }
 })
 export const appReducer=slice.reducer;
-export const {setAppInitializedAC}=slice.actions;
-export const {setAppStatusAC}=slice.actions;
-export const {setAppErrorAC}=slice.actions;
+export const appActions = slice.actions
+export type AppInitialState = ReturnType<typeof slice.getInitialState>
 
 
 // export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -65,15 +64,8 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 
         }
 
-        dispatch(setAppInitializedAC({ value: true }));
+        dispatch(appActions.setAppInitializedAC({ isInitialized: true }));
     })
 }
 
-export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 
-
-type ActionsType =
-    | SetAppErrorActionType
-    | SetAppStatusActionType
-    | ReturnType<typeof setAppInitializedAC>

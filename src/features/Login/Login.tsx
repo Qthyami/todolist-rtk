@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
-import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { loginTC } from "features/Login/auth-reducer";
 import { AppRootStateType } from "app/store";
 
@@ -16,23 +16,23 @@ export const Login = () => {
     validate: (values) => {
       if (!values.email) {
         return {
-          email: "Email is required",
+          email: "Email is required"
         };
       }
       if (!values.password) {
         return {
-          password: "Password is required",
+          password: "Password is required"
         };
       }
     },
     initialValues: {
       email: "",
       password: "",
-      rememberMe: false,
+      rememberMe: false
     },
     onSubmit: (values) => {
       dispatch(loginTC(values));
-    },
+    }
   });
 
   if (isLoggedIn) {

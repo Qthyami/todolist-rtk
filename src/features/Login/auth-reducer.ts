@@ -1,10 +1,11 @@
 import { authAPI, LoginParamsType } from "api/todolists-api";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { createSlice } from "@reduxjs/toolkit";
 import { appActions, initializeAppTC } from "app/app-reducer";
-import { clearTasksAndTodolists } from "common/actions/common.actions";
 
-import { createAppAsyncThunk } from "utils/create-app-async-thunk";
+
+import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
+import { clearTasksAndTodolists } from "common/actions";
 
 const initialState: InitialStateType = {
   isLoggedIn: false

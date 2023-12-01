@@ -3,11 +3,11 @@ import {
   TodolistDomainType,
   todolistsActions,
   todolistsReducer,
-  todolistsThunks,
-} from "features/TodolistsList/todolists.reducer";
+  todolistsThunks
+} from "features/TodolistsList/model/todolists/todolists.reducer";
 import { v1 } from "uuid";
 import { RequestStatusType } from "app/app.reducer";
-import { TodolistType } from "./todolists.api";
+import { TodolistType } from "features/TodolistsList/api/todolists/todolists.api";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -18,14 +18,14 @@ beforeEach(() => {
   todolistId2 = v1();
   startState = [
     { id: todolistId1, title: "What to learn", filter: "all", entityStatus: "idle", addedDate: "", order: 0 },
-    { id: todolistId2, title: "What to buy", filter: "all", entityStatus: "idle", addedDate: "", order: 0 },
+    { id: todolistId2, title: "What to buy", filter: "all", entityStatus: "idle", addedDate: "", order: 0 }
   ];
 });
 
 test("correct todolist should be removed", () => {
   const endState = todolistsReducer(
     startState,
-    todolistsThunks.removeTodolist.fulfilled({ id: todolistId1 }, "requestId", todolistId1),
+    todolistsThunks.removeTodolist.fulfilled({ id: todolistId1 }, "requestId", todolistId1)
   );
 
   expect(endState.length).toBe(1);
@@ -37,12 +37,12 @@ test("correct todolist should be added", () => {
     title: "New Todolist",
     id: "any id",
     addedDate: "",
-    order: 0,
+    order: 0
   };
 
   const endState = todolistsReducer(
     startState,
-    todolistsThunks.addTodolist.fulfilled({ todolist }, "requestId", todolist.title),
+    todolistsThunks.addTodolist.fulfilled({ todolist }, "requestId", todolist.title)
   );
 
   expect(endState.length).toBe(3);

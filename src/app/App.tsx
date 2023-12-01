@@ -9,16 +9,16 @@ import {
   IconButton,
   LinearProgress,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { Login } from "features/auth/Login";
+import { Login } from "features/auth/ui/login/Login";
 import "./App.css";
-import { TodolistsList } from "features/TodolistsList/TodolistsList";
+import { TodolistsList } from "features/TodolistsList/ui/TodolistsList";
 import { ErrorSnackbar } from "common/components";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
+import { selectIsLoggedIn } from "features/auth/model/auth.selectors";
 import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
-import { authThunks } from "features/auth/auth.reducer";
+import { authThunks } from "features/auth/model/auth.reducer";
 import { useActions } from "common/hooks/useActions";
 
 function App() {

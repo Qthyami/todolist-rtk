@@ -8,7 +8,7 @@ import { thunkTryCatch } from "common/utils/thunkTryCatch";
 const slice = createSlice({
   name: "auth",
   initialState: {
-    isLoggedIn: false
+    isLoggedIn: false,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -22,7 +22,7 @@ const slice = createSlice({
       .addCase(initializeApp.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
       });
-  }
+  },
 });
 
 // thunks
@@ -41,13 +41,15 @@ const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
     }).finally(() => {
       dispatch(appActions.setAppInitialized({ isInitialized: true }));
     });
-  }
+  },
 );
 
-const login = createAppAsyncThunk<{
-  isLoggedIn: boolean;
-},
-  LoginParamsType>(`${slice.name}/login`, async (arg, thunkAPI) => {
+const login = createAppAsyncThunk<
+  {
+    isLoggedIn: boolean;
+  },
+  LoginParamsType
+>(`${slice.name}/login`, async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
@@ -61,7 +63,7 @@ const login = createAppAsyncThunk<{
       // в конкретном поле в компоненте (пункт 7)
       // ❗ Если у нас fieldsErrors нету значит отобразим ошибку глобально
       const isShowAppError = !res.data.fieldsErrors.length;
-      debugger
+      debugger;
       handleServerAppError(res.data, dispatch, isShowAppError);
       return rejectWithValue(res.data);
     }

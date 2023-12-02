@@ -9,8 +9,8 @@ export const store = configureStore({
     tasks: tasksSlice,
     todolists: todolistsReducer,
     app: appReducer,
-    auth: authReducer
-  }
+    auth: authReducer,
+  },
 });
 
 export type AppRootStateType = ReturnType<typeof store.getState>;

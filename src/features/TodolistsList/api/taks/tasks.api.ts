@@ -5,7 +5,7 @@ import {
   GetTasksResponseType,
   RemoveTaskArgType,
   TaskType,
-  UpdateTaskModelType
+  UpdateTaskModelType,
 } from "features/TodolistsList/api/taks/tasksApi.types";
 
 export const tasksApi = {
@@ -16,12 +16,13 @@ export const tasksApi = {
     return instance.delete<BaseResponseType>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`);
   },
   createTask(arg: AddTaskArgType) {
-    return instance.post<BaseResponseType<{
-      item: TaskType;
-    }>>(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title });
+    return instance.post<
+      BaseResponseType<{
+        item: TaskType;
+      }>
+    >(`todo-lists/${arg.todolistId}/tasks`, { title: arg.title });
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
     return instance.put<BaseResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
-  }
+  },
 };
-

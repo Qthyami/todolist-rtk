@@ -27,13 +27,12 @@ export const TodolistsList = () => {
     addTodolist,
     changeTodolistTitle,
     removeTask,
-    addTask,
     updateTask,
-    changeTodolistFilter
+    changeTodolistFilter,
   } = useActions({
     ...todolistsThunks,
     ...tasksThunks,
-    ...todolistsActions
+    ...todolistsActions,
   });
 
   // const { removeTask, addTask, updateTask } = useActions(tasksThunks);
@@ -50,9 +49,9 @@ export const TodolistsList = () => {
     removeTask({ taskId, todolistId });
   }, []);
 
-  const addTaskCb = useCallback(function(title: string, todolistId: string) {
-    addTask({ title, todolistId });
-  }, []);
+  // const addTaskCb = useCallback(function(title: string, todolistId: string) {
+  //   addTask({ title, todolistId });
+  // }, []);
 
   const changeStatus = useCallback(function(taskId: string, status: TaskStatuses, todolistId: string) {
     updateTask({ taskId, domainModel: { status }, todolistId });
@@ -99,7 +98,6 @@ export const TodolistsList = () => {
                   tasks={allTodolistTasks}
                   removeTask={removeTaskCb}
                   changeFilter={changeFilter}
-                  addTask={addTaskCb}
                   changeTaskStatus={changeStatus}
                   removeTodolist={removeTodolistCb}
                   changeTaskTitle={changeTaskTitle}

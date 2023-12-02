@@ -13,8 +13,6 @@ import { useLogin } from "features/auth/lib/useFormik";
 // };
 
 export const Login = () => {
-
-
   const { formik } = useLogin();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   if (isLoggedIn) {

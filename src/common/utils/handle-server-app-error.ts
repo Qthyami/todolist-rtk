@@ -17,4 +17,3 @@ export const handleServerAppError = <D>(data: BaseResponseType<D>, dispatch: Dis
 
   dispatch(appActions.setAppStatus({ status: "failed" }));
 };
-

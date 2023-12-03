@@ -3,7 +3,7 @@ import { appActions, RequestStatusType } from "app/app.reducer";
 import {
   todolistsApi,
   TodolistType,
-  UpdateTodolistTitleArgType,
+  UpdateTodolistTitleArgType
 } from "features/TodolistsList/api/todolists/todolists.api";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
 import { ResultCode } from "common/enums";
@@ -23,7 +23,7 @@ const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
-  },
+  }
 );
 
 const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
@@ -39,7 +39,7 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
         return rejectWithValue(null);
       }
     });
-  },
+  }
 );
 
 const removeTodolist = createAppAsyncThunk<{ id: string }, string>("todo/removeTodolist", async (id, thunkAPI) => {
@@ -79,7 +79,7 @@ const changeTodolistTitle = createAppAsyncThunk<UpdateTodolistTitleArgType, Upda
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
-  },
+  }
 );
 
 const initialState: TodolistDomainType[] = [];
@@ -99,7 +99,7 @@ const slice = createSlice({
       if (todo) {
         todo.entityStatus = action.payload.entityStatus;
       }
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -110,7 +110,7 @@ const slice = createSlice({
         const newTodolist: TodolistDomainType = {
           ...action.payload.todolist,
           filter: "all",
-          entityStatus: "idle",
+          entityStatus: "idle"
         };
         state.unshift(newTodolist);
       })
@@ -119,7 +119,7 @@ const slice = createSlice({
         if (index !== -1) state.splice(index, 1);
       })
       .addCase(changeTodolistTitle.fulfilled, (state, action) => {
-        const todo = state.find((todo) => todo.id === action.payload.id);
+        const todo = state.find((todo) => todo.id === action.payload.todolistId);
         if (todo) {
           todo.title = action.payload.title;
         }
@@ -127,7 +127,7 @@ const slice = createSlice({
       .addCase(clearTasksAndTodolists, () => {
         return [];
       });
-  },
+  }
 });
 
 export const todolistsReducer = slice.reducer;

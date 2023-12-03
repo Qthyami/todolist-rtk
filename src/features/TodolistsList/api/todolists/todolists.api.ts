@@ -12,8 +12,8 @@ export const todolistsApi = {
     return instance.delete<BaseResponseType>(`todo-lists/${id}`);
   },
   updateTodolist(arg: UpdateTodolistTitleArgType) {
-    return instance.put<BaseResponseType>(`todo-lists/${arg.id}`, { title: arg.title });
-  },
+    return instance.put<BaseResponseType>(`todo-lists/${arg.todolistId}`, { title: arg.title });
+  }
 };
 
 // Types
@@ -25,6 +25,6 @@ export type TodolistType = {
 };
 
 export type UpdateTodolistTitleArgType = {
-  id: string;
+  todolistId: string;
   title: string;
 };

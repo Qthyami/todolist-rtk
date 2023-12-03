@@ -11,7 +11,7 @@ import {
   RemoveTaskArgType,
   TaskType,
   UpdateTaskArgType,
-  UpdateTaskModelType,
+  UpdateTaskModelType
 } from "features/TodolistsList/api/taks/tasksApi.types";
 
 const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, string>(
@@ -28,7 +28,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
-  },
+  }
 );
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/addTask", async (arg, thunkAPI) => {
@@ -40,8 +40,8 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/a
       const task = res.data.data.item;
       return { task };
     } else {
-      handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
+      handleServerAppError(res.data, dispatch, false);
+      return rejectWithValue(res.data);
     }
   });
 });
@@ -66,7 +66,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
         startDate: task.startDate,
         title: task.title,
         status: task.status,
-        ...arg.domainModel,
+        ...arg.domainModel
       };
 
       const res = await tasksApi.updateTask(arg.todolistId, arg.taskId, apiModel);
@@ -81,7 +81,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
-  },
+  }
 );
 
 const removeTask = createAppAsyncThunk<RemoveTaskArgType, RemoveTaskArgType>(
@@ -102,7 +102,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArgType, RemoveTaskArgType>(
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
     }
-  },
+  }
 );
 
 const initialState: TasksStateType = {};
@@ -146,7 +146,7 @@ const slice = createSlice({
       .addCase(clearTasksAndTodolists, () => {
         return {};
       });
-  },
+  }
 });
 
 export const tasksSlice = slice.reducer;

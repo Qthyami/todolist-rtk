@@ -35,7 +35,8 @@ export const TodolistsList = () => {
 
 
   const addTodolistCb = useCallback((title: string) => {
-    addTodolist(title);
+    return addTodolist(title);
+
   }, []);
 
   if (!isLoggedIn) {

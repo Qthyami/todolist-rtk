@@ -28,21 +28,21 @@ export const useLogin = () => {
     initialValues: {
       email: "",
       password: "",
-      rememberMe: false,
+      rememberMe: false
     },
     onSubmit: (values, formikHelpers) => {
       dispatch(authThunks.login(values))
         .unwrap()
         .catch((err: BaseResponseType) => {
           console.log(formik.errors.email);
-          debugger;
+
           err.fieldsErrors?.forEach((fieldError) => {
             return formikHelpers.setFieldError(fieldError.field, fieldError.error);
           });
         });
-    },
+    }
   });
   return {
-    formik,
+    formik
   };
 };

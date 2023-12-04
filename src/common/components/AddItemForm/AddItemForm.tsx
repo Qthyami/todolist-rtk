@@ -17,7 +17,7 @@ export const AddItemForm = React.memo(function({ addItem, disabled = false }: Ad
       addItem(title)
         .unwrap()
         .then(() => {
-          debugger
+
           setTitle("");
         })
         .catch((err: BaseResponseType) => {

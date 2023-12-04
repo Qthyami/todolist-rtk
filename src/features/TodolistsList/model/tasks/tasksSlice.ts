@@ -19,10 +19,10 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
+      // dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await tasksApi.getTasks(todolistId);
       const tasks = res.data.items;
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      // dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { tasks, todolistId };
     } catch (e) {
       handleServerNetworkError(e, dispatch);
@@ -33,7 +33,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }
 
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>("tasks/addTask", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  debugger;
+
   return thunkTryCatch(thunkAPI, async () => {
     const res = await tasksApi.createTask(arg);
     if (res.data.resultCode === ResultCode.Success) {
@@ -51,7 +51,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
+      // dispatch(appActions.setAppStatus({ status: "loading" }));
       const state = getState();
       const task = state.tasks[arg.todolistId].find((t) => t.id === arg.taskId);
       if (!task) {
@@ -71,7 +71,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
 
       const res = await tasksApi.updateTask(arg.todolistId, arg.taskId, apiModel);
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        // dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return arg;
       } else {
         handleServerAppError(res.data, dispatch);
@@ -89,10 +89,10 @@ const removeTask = createAppAsyncThunk<RemoveTaskArgType, RemoveTaskArgType>(
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
+      // dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await tasksApi.deleteTask(arg);
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        // dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return arg;
       } else {
         handleServerAppError(res.data, dispatch);

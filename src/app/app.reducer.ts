@@ -30,10 +30,26 @@ const slice = createSlice({
 
       state.status = "loading";
     });
-    builder.addMatcher(isRejected, (state, action) => {
-
+    builder.addMatcher(isRejected, (state, action: AnyAction) => {
+      debugger
       state.status = "failed";
+      if (action.payload) {
+
+        if ((action.type === "todo/addTodolist/rejected") || (action.type === "tasks/addTask/rejected") || (action.type === "auth/initializeApp/rejected")) {
+          debugger
+          return;
+        }
+
+        state.error = action.payload.messages[0];
+        debugger
+      } else {
+        state.error = action.error.message ? action.error.message : "Some error occurred";
+        debugger
+
+      }
+
     });
+
     builder.addMatcher(isFulfilled, (state, action) => { // деалет то же самое, что и action.type.endsWith
 
       state.status = "succeeded";

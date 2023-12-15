@@ -11,6 +11,7 @@ import { BaseResponseType } from "common/types/common.types";
  * @param {boolean} [showGlobalError=true] - Флаг, указывающий, следует ли отображать глобальное сообщение об ошибке.
  */
 export const handleServerAppError = <D>(data: BaseResponseType<D>, dispatch: Dispatch, showGlobalError = true) => {
+
   if (showGlobalError) {
     dispatch(appActions.setAppError({ error: data.messages.length ? data.messages[0] : "Some error occurred" }));
   }

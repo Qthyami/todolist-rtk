@@ -21,7 +21,10 @@ export const AddItemForm = React.memo(function({ addItem, disabled = false }: Ad
           setTitle("");
         })
         .catch((err: BaseResponseType) => {
-          setError(err.messages[0]);
+          if (err?.resultCode) {
+            setError(err.messages[0]);
+          }
+
         });
 
     } else {

@@ -1,9 +1,10 @@
+const BEARER_TOKEN = "19a04bd9-9318-49b9-a399-9c6430487d09";
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  // CORS preflight
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const path = req.query.path || "";
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
       method: req.method,
       headers: {
         "Content-Type": "application/json",
-        "API-KEY": "9f3854f9-1c37-4311-8912-72c5f843df71"
+        "Authorization": `Bearer ${BEARER_TOKEN}`
       },
       body: req.method !== "GET" && req.method !== "DELETE" ? JSON.stringify(req.body) : undefined,
     });

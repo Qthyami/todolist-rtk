@@ -1,10 +1,11 @@
-const BEARER_TOKEN = "19a04bd9-9318-49b9-a399-9c6430487d09";
-
+// /api/proxy.js
 export default async function handler(req, res) {
+  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Preflight
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const path = req.query.path || "";
@@ -15,13 +16,19 @@ export default async function handler(req, res) {
       method: req.method,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${BEARER_TOKEN}`,
       },
+      // Передаём тело для POST/PUT/DELETE
       body: req.method !== "GET" && req.method !== "DELETE" ? JSON.stringify(req.body) : undefined,
+      credentials: "include", // проксируем куки
     });
+
+    // Проксируем Set-Cookie обратно на фронт
+    const cookies = response.headers.get("set-cookie");
+    if (cookies) res.setHeader("Set-Cookie", cookies);
 
     const data = await response.json().catch(() => null);
     res.status(response.status).json(data);
+
   } catch (error) {
     res.status(500).json({ error: "Proxy error", details: error.message });
   }

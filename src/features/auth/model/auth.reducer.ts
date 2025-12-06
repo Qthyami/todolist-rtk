@@ -13,17 +13,16 @@ const slice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        isAnyOf(
-          authThunks.login.fulfilled,
-          authThunks.logout.fulfilled,
-          authThunks.initializeApp.fulfilled
-        ),
-        (state, action) => {
-          state.isLoggedIn = action.payload.isLoggedIn;
-        }
-      );
+    builder.addMatcher(
+      isAnyOf(
+        authThunks.login.fulfilled,
+        authThunks.logout.fulfilled,
+        authThunks.initializeApp.fulfilled
+      ),
+      (state, action) => {
+        state.isLoggedIn = action.payload.isLoggedIn;
+      }
+    );
   }
 });
 
@@ -38,7 +37,7 @@ const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
       if (!token) return { isLoggedIn: false };
 
       // авторизуемся через Bearer-токен
-      const res = await authAPI.me(); // authAPI.me() будет использовать instance с interceptor
+      const res = await authAPI.me(); // authAPI.me() использует instance с interceptor
       if (res.data.resultCode === 0) {
         return { isLoggedIn: true };
       } else {
@@ -60,8 +59,11 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
       const res = await authAPI.login(arg);
       if (res.data.resultCode === ResultCode.Success) {
         const token = res.data.data.token;
-        // сохраняем Bearer-токен в localStorage
-        localStorage.setItem("sn-token", token);
+
+        if (token) {
+          // сохраняем Bearer-токен только если он существует
+          localStorage.setItem("sn-token", token);
+        }
 
         return { isLoggedIn: true };
       } else {

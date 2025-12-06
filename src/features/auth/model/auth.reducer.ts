@@ -5,6 +5,7 @@ import { clearTasksAndTodolists } from "common/actions";
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
 import { thunkTryCatch } from "common/utils/thunkTryCatch";
 import { ResultCode } from "common/enums";
+import { BaseResponseType } from "common/types/common.types";
 
 const slice = createSlice({
   name: "auth",
@@ -36,7 +37,7 @@ const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
       const token = localStorage.getItem("sn-token");
       if (!token) return { isLoggedIn: false };
 
-      // авторизуемся через Bearer-токен
+      // авторизация через Bearer-токен
       const res = await authAPI.me(); // authAPI.me() использует instance с interceptor
       if (res.data.resultCode === 0) {
         return { isLoggedIn: true };
@@ -59,18 +60,16 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
       const res = await authAPI.login(arg);
       if (res.data.resultCode === ResultCode.Success) {
         const token = res.data.data.token;
-
         if (token) {
-          // сохраняем Bearer-токен только если он существует
+          // сохраняем Bearer-токен в localStorage
           localStorage.setItem("sn-token", token);
         }
-
         return { isLoggedIn: true };
       } else {
         return rejectWithValue(res.data);
       }
-    } catch (e) {
-      return rejectWithValue(e);
+    } catch (e: unknown) {
+      return rejectWithValue(e as BaseResponseType<{}> | null);
     }
   }
 );
@@ -89,9 +88,9 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
         handleServerAppError(res.data, dispatch);
         return rejectWithValue(null);
       }
-    } catch (e) {
+    } catch (e: unknown) {
       handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
+      return rejectWithValue(e as BaseResponseType<{}> | null);
     }
   }
 );
